@@ -23,16 +23,10 @@ fn parse_input() -> Vec<((i32, i32), (i32, i32))> {
 fn main() {
     let input = parse_input();
 
-    let cmp = |p: i32, q: i32| match p.cmp(&q) {
-        Ordering::Less => 1,
-        Ordering::Equal => 0,
-        Ordering::Greater => -1,
-    };
-
     let mut grid = HashMap::new();
     for ((mut x, mut y), (c, d)) in input {
-        let dx = cmp(x, c);
-        let dy = cmp(y, d);
+        let dx = (c - x).signum();
+        let dy = (d - y).signum();
         for _ in 0..=max((x - c).abs(), (y - d).abs()) {
             *grid.entry((x, y)).or_insert(0) += 1;
             x += dx;
